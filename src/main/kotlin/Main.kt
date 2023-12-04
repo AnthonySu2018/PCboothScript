@@ -3,8 +3,8 @@ import java.net.InetAddress
 import java.util.concurrent.TimeUnit
 
 
-val ipAddress = "192.168.2.1"
-val isPingSuccess = ping(ipAddress)
+val ipAddress = "192.168.10.2"
+var isPingSuccess = false
 var trueCounter = 0
 var falseCounter = 0
 fun main(args: Array<String>) {
@@ -14,6 +14,7 @@ fun main(args: Array<String>) {
 
     do{
         ping(ipAddress)
+        isPingSuccess = ping(ipAddress)
         if(isPingSuccess)
         {
             trueCounter ++
@@ -22,6 +23,7 @@ fun main(args: Array<String>) {
         }
         else{
             println("Ping $ipAddress: $isPingSuccess")
+            TimeUnit.SECONDS.sleep(4)
             falseCounter ++
             println("尝试连接主机失败，第 $falseCounter 次")
             if(falseCounter >10)
@@ -45,7 +47,7 @@ fun main(args: Array<String>) {
 fun ping(ipAddress: String): Boolean {
     return try {
         val inet = InetAddress.getByName(ipAddress)
-        inet.isReachable(5000) // 设置超时时间为5秒
+        inet.isReachable(1000) // 设置超时时间为5秒
     } catch (ex: Exception) {
         false
     }
